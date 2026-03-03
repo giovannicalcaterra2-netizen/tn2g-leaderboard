@@ -63,13 +63,18 @@
     .badges{
       display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;
     }
-   .badge{
+  .badge{
   width:48px;
   height:48px;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,.20);
-  background: rgba(255,255,255,.08);
+  border:2px solid rgba(255,255,255,.25);
+  box-shadow: 0 0 8px rgba(255,255,255,.15);
   object-fit:cover;
+  transition: transform .2s ease;
+}
+
+.badge:hover{
+  transform: scale(1.15);
 }
     .pill{
       margin-left:8px;
@@ -311,4 +316,5 @@
 </script>
 </body>
 </html>
+
 
