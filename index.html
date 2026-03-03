@@ -36,12 +36,14 @@
       overflow:hidden;
     }
     .row{
-      display:grid;
-      grid-template-columns: 54px 1.2fr 86px 1fr;
-      gap:10px;
-      align-items:center;
-      padding: 12px 12px;
-      border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns: 60px 1.2fr 100px 1fr;
+  gap:14px;
+  align-items:center;
+  padding: 18px 16px;
+  border-top:1px solid var(--line);
+  min-height: 90px;
+}
     }
     .row:first-child{ border-top:0; }
     .rank{
@@ -64,13 +66,12 @@
       display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;
     }
   .badge{
-  width:48px;
-  height:48px;
+  width:56px;
+  height:56px;
   border-radius:999px;
   border:2px solid rgba(255,255,255,.25);
-  box-shadow: 0 0 8px rgba(255,255,255,.15);
+  box-shadow: 0 0 12px rgba(255,255,255,.15);
   object-fit:cover;
-  transition: transform .2s ease;
 }
 
 .badge:hover{
@@ -316,5 +317,6 @@
 </script>
 </body>
 </html>
+
 
 
