@@ -7,17 +7,18 @@
   <style>
     :root{
       --navy:#0b1f33;
-      --navy2:#102b45;
-      --text:#0f172a;
-      --muted:#64748b;
-      --card:#ffffff;
       --bg:#0b1f33;
       --line:rgba(255,255,255,.10);
       --gold:rgba(255,215,0,.18);
       --silver:rgba(192,192,192,.16);
       --bronze:rgba(205,127,50,.16);
     }
-    body{ margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,var(--bg),#071423); color:#fff;}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:linear-gradient(180deg,var(--bg),#071423);
+      color:#fff;
+    }
     .wrap{ max-width: 980px; margin: 0 auto; padding: 18px 14px 28px;}
     .header{
       display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
@@ -91,7 +92,14 @@
       font-size:12px;
     }
     .hint{ color:rgba(255,255,255,.65); font-size:12px; }
-    .err{ margin-top:12px; padding:10px 12px; border:1px solid rgba(255,255,255,.18); border-radius:12px; background:rgba(255,0,0,.12); }
+    .err{
+      margin-top:12px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:12px;
+      background:rgba(255,0,0,.12);
+      white-space:pre-wrap;
+    }
     @media (max-width: 640px){
       .title{ font-size:22px; }
       .row{ grid-template-columns: 48px 1fr 74px; }
@@ -121,38 +129,38 @@
   </div>
 
 <script>
-  // 1) INCOLLA QUI IL LINK CSV (File → Pubblica sul web → CSV)
+  // CSV pubblicato dal tuo Google Sheet
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=0&single=true&output=csv";
 
-  // 2) mappa badge per categoria (usa i file dentro /badges)
+  // Badge: nel tuo repo la cartella è "badge/" (singolare)
   const BADGE_MAP = {
     aperitivi: [
-      {min:20, img:"badges/aperitivo_diamante.png"},
-      {min:10, img:"badges/aperitivo_oro.png"},
-      {min:5,  img:"badges/aperitivo_argento.png"},
-      {min:3,  img:"badges/aperitivo_bronzo.png"},
-      {min:1,  img:"badges/aperitivo_cartone.png"},
+      {min:20, img:"badge/aperitivo_diamante.png"},
+      {min:10, img:"badge/aperitivo_oro.png"},
+      {min:5,  img:"badge/aperitivo_argento.png"},
+      {min:3,  img:"badge/aperitivo_bronzo.png"},
+      {min:1,  img:"badge/aperitivo_cartone.png"},
     ],
     outdoor: [
-      {min:20, img:"badges/outdoor_diamante.png"},
-      {min:10, img:"badges/outdoor_oro.png"},
-      {min:5,  img:"badges/outdoor_argento.png"},
-      {min:3,  img:"badges/outdoor_bronzo.png"},
-      {min:1,  img:"badges/outdoor_cartone.png"},
+      {min:20, img:"badge/outdoor_diamante.png"},
+      {min:10, img:"badge/outdoor_oro.png"},
+      {min:5,  img:"badge/outdoor_argento.png"},
+      {min:3,  img:"badge/outdoor_bronzo.png"},
+      {min:1,  img:"badge/outdoor_cartone.png"},
     ],
     nerd: [
-      {min:20, img:"badges/nerd_diamante.png"},
-      {min:10, img:"badges/nerd_oro.png"},
-      {min:5,  img:"badges/nerd_argento.png"},
-      {min:3,  img:"badges/nerd_bronzo.png"},
-      {min:1,  img:"badges/nerd_cartone.png"},
+      {min:20, img:"badge/nerd_diamante.png"},
+      {min:10, img:"badge/nerd_oro.png"},
+      {min:5,  img:"badge/nerd_argento.png"},
+      {min:3,  img:"badge/nerd_bronzo.png"},
+      {min:1,  img:"badge/nerd_cartone.png"},
     ],
     call: [
-      {min:20, img:"badges/call_diamante.png"},
-      {min:10, img:"badges/call_oro.png"},
-      {min:5,  img:"badges/call_argento.png"},
-      {min:3,  img:"badges/call_bronzo.png"},
-      {min:1,  img:"badges/call_cartone.png"},
+      {min:20, img:"badge/call_diamante.png"},
+      {min:10, img:"badge/call_oro.png"},
+      {min:5,  img:"badge/call_argento.png"},
+      {min:3,  img:"badge/call_bronzo.png"},
+      {min:1,  img:"badge/call_cartone.png"},
     ],
   };
 
@@ -163,7 +171,6 @@
   }
 
   function parseCSV(text){
-    // CSV parser semplice ma robusto per Google Sheets
     const rows = [];
     let row = [], cur = "", inQ = false;
     for (let i=0;i<text.length;i++){
@@ -197,6 +204,12 @@
     return null;
   }
 
+  function escapeHtml(s){
+    return String(s||"").replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+
   function makeRow(rank, nick, points, badges){
     const row = document.createElement("div");
     row.className = "row " + (rank===1?"r1":rank===2?"r2":rank===3?"r3":"");
@@ -204,7 +217,7 @@
       <div class="rank">${rank}</div>
       <div>
         <span class="name">${escapeHtml(nick)}</span>
-        ${rank<=3 ? `<span class="pill">${rank===1?"LEADER":rank===2?"CHASER": "CONTENDER"}</span>` : ""}
+        ${rank<=3 ? `<span class="pill">${rank===1?"LEADER":rank===2?"CHASER":"CONTENDER"}</span>` : ""}
       </div>
       <div class="points">${points}</div>
       <div class="badges"></div>
@@ -220,22 +233,19 @@
     return row;
   }
 
-  function escapeHtml(s){
-    return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  }
-
   async function main(){
     try{
-      if (!CSV_URL || CSV_URL.includes("https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=0&single=true&output=csv")){
-        showErr("Devi sostituire CSV_URL con il link CSV del tuo Google Sheet (File → Pubblica sul web → CSV).");
+      // Check minimo (non blocca più con il tuo link)
+      if (!CSV_URL || CSV_URL.includes("PASTE_YOUR_CSV_URL_HERE")) {
+        showErr("Devi impostare CSV_URL con il link CSV del tuo Google Sheet (File → Pubblica sul web → CSV).");
         return;
       }
 
       const res = await fetch(CSV_URL, {cache:"no-store"});
       if (!res.ok) throw new Error("Impossibile scaricare il CSV. Controlla che il foglio sia pubblicato e il link sia corretto.");
+
       const text = await res.text();
       const data = parseCSV(text);
-
       if (data.length < 2) throw new Error("CSV vuoto o non valido.");
 
       const headers = data[0].map(h => String(h||"").trim().toUpperCase());
@@ -248,7 +258,11 @@
       const iCall = idx("CALL");
 
       if ([iNick,iAper,iOut,iNerd,iCall].some(i => i < 0)){
-        throw new Error("Intestazioni mancanti. Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL.");
+        throw new Error(
+          "Intestazioni mancanti nel CSV.\n" +
+          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL.\n" +
+          "Intestazioni lette: " + headers.join(", ")
+        );
       }
 
       const players = data.slice(1)
@@ -260,11 +274,13 @@
           const nerd = toInt(r[iNerd]);
           const call = toInt(r[iCall]);
           const total = aper + out + nerd + call;
+
           const badges = [];
           const b1 = pickBadge("aperitivi", aper); if (b1) badges.push(b1);
           const b2 = pickBadge("outdoor", out);     if (b2) badges.push(b2);
           const b3 = pickBadge("nerd", nerd);       if (b3) badges.push(b3);
           const b4 = pickBadge("call", call);       if (b4) badges.push(b4);
+
           return {nick, total, badges};
         })
         .sort((a,b) => b.total - a.total)
@@ -276,7 +292,12 @@
 
       const now = new Date();
       document.getElementById("updated").textContent =
-        "Aggiornato: " + now.toLocaleString("it-IT", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"});
+        "Aggiornato: " + now.toLocaleString("it-IT", {
+          day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"
+        });
+
+      // nasconde eventuale errore precedente
+      document.getElementById("err").style.display = "none";
 
     }catch(e){
       showErr(e.message || String(e));
@@ -284,9 +305,7 @@
   }
 
   main();
-  // refresh automatico ogni 60s (facoltativo)
   setInterval(main, 60000);
 </script>
 </body>
-
-</html> 
+</html>
