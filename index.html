@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TN2G - TOP 10</title>
+  <style>
+    :root{
+      --navy:#0b1f33;
+      --navy2:#102b45;
+      --text:#0f172a;
+      --muted:#64748b;
+      --card:#ffffff;
+      --bg:#0b1f33;
+      --line:rgba(255,255,255,.10);
+      --gold:rgba(255,215,0,.18);
+      --silver:rgba(192,192,192,.16);
+      --bronze:rgba(205,127,50,.16);
+    }
+    body{ margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,var(--bg),#071423); color:#fff;}
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 18px 14px 28px;}
+    .header{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      padding: 8px 2px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .title{ font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:28px; line-height:1;}
+    .sub{ color:rgba(255,255,255,.75); font-size:12px; margin-top:6px;}
+    .updated{ color:rgba(255,255,255,.65); font-size:12px; text-align:right; }
+    .board{
+      margin-top:14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 54px 1.2fr 86px 1fr;
+      gap:10px;
+      align-items:center;
+      padding: 12px 12px;
+      border-top:1px solid var(--line);
+    }
+    .row:first-child{ border-top:0; }
+    .rank{
+      font-weight:900;
+      font-size:18px;
+      text-align:center;
+      width:44px;height:44px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--line);
+    }
+    .name{ font-weight:800; font-size:16px; }
+    .points{
+      text-align:right;
+      font-weight:900;
+      font-size:18px;
+      letter-spacing:.02em;
+    }
+    .badges{
+      display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;
+    }
+    .badge{
+      width:34px; height:34px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      object-fit:cover;
+    }
+    .pill{
+      margin-left:8px;
+      font-size:11px;
+      padding: 3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      color:rgba(255,255,255,.80);
+      background: rgba(255,255,255,.06);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .row.r1{ background: linear-gradient(90deg, var(--gold), transparent); }
+    .row.r2{ background: linear-gradient(90deg, var(--silver), transparent); }
+    .row.r3{ background: linear-gradient(90deg, var(--bronze), transparent); }
+
+    .footer{
+      margin-top:10px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      color:rgba(255,255,255,.65);
+      font-size:12px;
+    }
+    .hint{ color:rgba(255,255,255,.65); font-size:12px; }
+    .err{ margin-top:12px; padding:10px 12px; border:1px solid rgba(255,255,255,.18); border-radius:12px; background:rgba(255,0,0,.12); }
+    @media (max-width: 640px){
+      .title{ font-size:22px; }
+      .row{ grid-template-columns: 48px 1fr 74px; }
+      .badges{ grid-column: 1 / -1; justify-content:flex-start; padding-left: 2px; }
+      .points{ font-size:16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="title">TOP 10 TN2G</div>
+        <div class="sub">TN2G Achievement Game · classifica aggiornata automaticamente</div>
+      </div>
+      <div class="updated" id="updated">Caricamento…</div>
+    </div>
+
+    <div class="board" id="board"></div>
+
+    <div class="footer">
+      <div class="hint">Soglie badge: 1 Cartone · 3 Bronzo · 5 Argento · 10 Oro · 20 Diamante</div>
+      <div class="hint">Mostra solo i badge ottenuti (categorie senza badge non compaiono)</div>
+    </div>
+
+    <div class="err" id="err" style="display:none;"></div>
+  </div>
+
+<script>
+  // 1) INCOLLA QUI IL LINK CSV (File → Pubblica sul web → CSV)
+  const CSV_URL = "PASTE_YOUR_CSV_URL_HERE";
+
+  // 2) mappa badge per categoria (usa i file dentro /badges)
+  const BADGE_MAP = {
+    aperitivi: [
+      {min:20, img:"badges/aperitivo_diamante.png"},
+      {min:10, img:"badges/aperitivo_oro.png"},
+      {min:5,  img:"badges/aperitivo_argento.png"},
+      {min:3,  img:"badges/aperitivo_bronzo.png"},
+      {min:1,  img:"badges/aperitivo_cartone.png"},
+    ],
+    outdoor: [
+      {min:20, img:"badges/outdoor_diamante.png"},
+      {min:10, img:"badges/outdoor_oro.png"},
+      {min:5,  img:"badges/outdoor_argento.png"},
+      {min:3,  img:"badges/outdoor_bronzo.png"},
+      {min:1,  img:"badges/outdoor_cartone.png"},
+    ],
+    nerd: [
+      {min:20, img:"badges/nerd_diamante.png"},
+      {min:10, img:"badges/nerd_oro.png"},
+      {min:5,  img:"badges/nerd_argento.png"},
+      {min:3,  img:"badges/nerd_bronzo.png"},
+      {min:1,  img:"badges/nerd_cartone.png"},
+    ],
+    call: [
+      {min:20, img:"badges/call_diamante.png"},
+      {min:10, img:"badges/call_oro.png"},
+      {min:5,  img:"badges/call_argento.png"},
+      {min:3,  img:"badges/call_bronzo.png"},
+      {min:1,  img:"badges/call_cartone.png"},
+    ],
+  };
+
+  function showErr(msg){
+    const el = document.getElementById("err");
+    el.style.display = "block";
+    el.textContent = msg;
+  }
+
+  function parseCSV(text){
+    // CSV parser semplice ma robusto per Google Sheets
+    const rows = [];
+    let row = [], cur = "", inQ = false;
+    for (let i=0;i<text.length;i++){
+      const c = text[i], n = text[i+1];
+      if (c === '"' ) {
+        if (inQ && n === '"'){ cur += '"'; i++; }
+        else inQ = !inQ;
+      } else if (c === ',' && !inQ){
+        row.push(cur); cur="";
+      } else if ((c === '\n' || c === '\r') && !inQ){
+        if (cur.length || row.length){ row.push(cur); rows.push(row); }
+        row=[]; cur="";
+        if (c === '\r' && n === '\n') i++;
+      } else {
+        cur += c;
+      }
+    }
+    if (cur.length || row.length){ row.push(cur); rows.push(row); }
+    return rows;
+  }
+
+  function toInt(x){
+    const n = parseInt(String(x||"").replace(/[^\d-]/g,""), 10);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function pickBadge(cat, value){
+    for (const t of BADGE_MAP[cat]){
+      if (value >= t.min) return t.img;
+    }
+    return null;
+  }
+
+  function makeRow(rank, nick, points, badges){
+    const row = document.createElement("div");
+    row.className = "row " + (rank===1?"r1":rank===2?"r2":rank===3?"r3":"");
+    row.innerHTML = `
+      <div class="rank">${rank}</div>
+      <div>
+        <span class="name">${escapeHtml(nick)}</span>
+        ${rank<=3 ? `<span class="pill">${rank===1?"LEADER":rank===2?"CHASER": "CONTENDER"}</span>` : ""}
+      </div>
+      <div class="points">${points}</div>
+      <div class="badges"></div>
+    `;
+    const b = row.querySelector(".badges");
+    for (const img of badges){
+      const im = document.createElement("img");
+      im.src = img;
+      im.className = "badge";
+      im.alt = "badge";
+      b.appendChild(im);
+    }
+    return row;
+  }
+
+  function escapeHtml(s){
+    return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  async function main(){
+    try{
+      if (!CSV_URL || CSV_URL.includes("https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=0&single=true&output=csv")){
+        showErr("Devi sostituire CSV_URL con il link CSV del tuo Google Sheet (File → Pubblica sul web → CSV).");
+        return;
+      }
+
+      const res = await fetch(CSV_URL, {cache:"no-store"});
+      if (!res.ok) throw new Error("Impossibile scaricare il CSV. Controlla che il foglio sia pubblicato e il link sia corretto.");
+      const text = await res.text();
+      const data = parseCSV(text);
+
+      if (data.length < 2) throw new Error("CSV vuoto o non valido.");
+
+      const headers = data[0].map(h => String(h||"").trim().toUpperCase());
+      const idx = (name) => headers.indexOf(name);
+
+      const iNick = idx("NICK");
+      const iAper = idx("APERITIVI");
+      const iOut  = idx("OUTDOOR");
+      const iNerd = idx("NERD");
+      const iCall = idx("CALL");
+
+      if ([iNick,iAper,iOut,iNerd,iCall].some(i => i < 0)){
+        throw new Error("Intestazioni mancanti. Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL.");
+      }
+
+      const players = data.slice(1)
+        .filter(r => (r[iNick]||"").trim() !== "")
+        .map(r => {
+          const nick = String(r[iNick]).trim();
+          const aper = toInt(r[iAper]);
+          const out  = toInt(r[iOut]);
+          const nerd = toInt(r[iNerd]);
+          const call = toInt(r[iCall]);
+          const total = aper + out + nerd + call;
+          const badges = [];
+          const b1 = pickBadge("aperitivi", aper); if (b1) badges.push(b1);
+          const b2 = pickBadge("outdoor", out);     if (b2) badges.push(b2);
+          const b3 = pickBadge("nerd", nerd);       if (b3) badges.push(b3);
+          const b4 = pickBadge("call", call);       if (b4) badges.push(b4);
+          return {nick, total, badges};
+        })
+        .sort((a,b) => b.total - a.total)
+        .slice(0,10);
+
+      const board = document.getElementById("board");
+      board.innerHTML = "";
+      players.forEach((p, i) => board.appendChild(makeRow(i+1, p.nick, p.total, p.badges)));
+
+      const now = new Date();
+      document.getElementById("updated").textContent =
+        "Aggiornato: " + now.toLocaleString("it-IT", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"});
+
+    }catch(e){
+      showErr(e.message || String(e));
+    }
+  }
+
+  main();
+  // refresh automatico ogni 60s (facoltativo)
+  setInterval(main, 60000);
+</script>
+</body>
+</html>
