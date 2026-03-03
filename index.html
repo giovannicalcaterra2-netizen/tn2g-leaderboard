@@ -68,22 +68,26 @@
   gap:10px;
   flex-wrap:nowrap;     /* <- IMPORTANT: non andare a capo */
 }
-  .badge{
+ .badge{
   width:72px;
   height:72px;
   border-radius:999px;
 
-  /* via bordo + glow (erano loro che “sparavano” l’alone) */
   border:0;
-  box-shadow:0 0 0 2px rgba(255,255,255,.08);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.08);
   background:#0b1f33;
-  padding:3px;  
 
+  /* IMPORTANTI */
+  padding:0;              /* togli padding */
   object-fit:cover;
+  object-position:center;
 
-  /* migliora resa (soprattutto su chrome) */
-  image-rendering: auto;
-  -ms-interpolation-mode: bicubic;
+  /* ZOOM dell’immagine dentro al cerchio */
+  transform: scale(1.18);
+  transform-origin:center;
+
+  /* evita che il transform “tagli” male */
+  display:block;
 }
 .namewrap{
   display:flex;
@@ -345,6 +349,7 @@
 </script>
 </body>
 </html>
+
 
 
 
