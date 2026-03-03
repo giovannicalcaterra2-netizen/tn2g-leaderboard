@@ -281,11 +281,15 @@
 `;
     const b = row.querySelector(".badges");
     for (const img of badges){
-      const im = document.createElement("img");
-      im.src = img;
-      im.className = "badge";
-      im.alt = "badge";
-      b.appendChild(im);
+     const wrap = document.createElement("div");
+wrap.className = "badgeWrap";
+
+const im = document.createElement("img");
+im.src = img;
+im.alt = "badge";
+
+wrap.appendChild(im);
+b.appendChild(wrap);
     }
     return row;
   }
@@ -366,6 +370,7 @@
 </script>
 </body>
 </html>
+
 
 
 
