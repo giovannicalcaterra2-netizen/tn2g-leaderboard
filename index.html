@@ -37,12 +37,12 @@
     }
     .row{
   display:grid;
-  grid-template-columns: 60px 1.2fr 100px 1fr;
+  grid-template-columns: 60px 1fr auto; /* 3 colonne invece di 4 */
   gap:14px;
   align-items:center;
   padding: 18px 16px;
   border-top:1px solid var(--line);
-  min-height: 90px;
+  min-height: 96px;
 }
     }
     .row:first-child{ border-top:0; }
@@ -63,15 +63,40 @@
       letter-spacing:.02em;
     }
     .badges{
-      display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;
-    }
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:nowrap;     /* <- IMPORTANT: non andare a capo */
+}
   .badge{
-  width:100px;
-  height:100px;
+  width:72px;
+  height:72px;
   border-radius:999px;
-  border:2px solid rgba(255,255,255,.25);
-  box-shadow: 0 0 12px rgba(255,255,255,.15);
+
+  /* via bordo + glow (erano loro che “sparavano” l’alone) */
+  border:0;
+  box-shadow:none;
+  background: transparent;
+
   object-fit:cover;
+
+  /* migliora resa (soprattutto su chrome) */
+  image-rendering: auto;
+  -ms-interpolation-mode: bicubic;
+}
+.namewrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width: 0;
+}
+
+.points{
+  margin-left:auto;     /* spinge i punti a destra dentro namewrap */
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:.02em;
+  white-space:nowrap;
 }
 
 .badge:hover{
@@ -222,14 +247,16 @@
     const row = document.createElement("div");
     row.className = "row " + (rank===1?"r1":rank===2?"r2":rank===3?"r3":"");
     row.innerHTML = `
-      <div class="rank">${rank}</div>
-      <div>
-        <span class="name">${escapeHtml(nick)}</span>
-        ${rank<=3 ? `<span class="pill">${rank===1?"LEADER":rank===2?"CHASER":"CONTENDER"}</span>` : ""}
-      </div>
-      <div class="points">${points}</div>
-      <div class="badges"></div>
-    `;
+  <div class="rank">${rank}</div>
+  <div class="namewrap">
+    <div>
+      <span class="name">${escapeHtml(nick)}</span>
+      ${rank<=3 ? `<span class="pill">${rank===1?"LEADER":rank===2?"CHASER":"CONTENDER"}</span>` : ""}
+    </div>
+    <div class="points">${points}</div>
+  </div>
+  <div class="badges"></div>
+`;
     const b = row.querySelector(".badges");
     for (const img of badges){
       const im = document.createElement("img");
@@ -317,6 +344,7 @@
 </script>
 </body>
 </html>
+
 
 
 
