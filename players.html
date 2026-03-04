@@ -4,215 +4,106 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>TN2G - Giocatori</title>
-
   <style>
     :root{
       --bg:#0b1f33;
-      --bg2:#071423;
-      --card:rgba(255,255,255,.06);
       --line:rgba(255,255,255,.10);
-      --muted:rgba(255,255,255,.72);
-      --text:#fff;
-      --gold:rgba(255,215,0,.18);
-      --silver:rgba(192,192,192,.16);
-      --bronze:rgba(205,127,50,.16);
-      --chip:rgba(255,255,255,.08);
+      --card:rgba(255,255,255,.06);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --accent:rgba(255,255,255,.12);
     }
-
-    *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      background:linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);
+      background:linear-gradient(180deg,var(--bg),#071423);
+      color:#fff;
     }
-
-    .wrap{ max-width: 980px; margin: 0 auto; padding: 18px 14px 28px; }
-
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 18px 14px 28px;}
     .header{
       display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
       padding: 8px 2px 14px;
       border-bottom:1px solid var(--line);
     }
+    .title{ font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:28px; line-height:1;}
+    .sub{ color:var(--muted); font-size:12px; margin-top:6px;}
+    .updated{ color:var(--muted2); font-size:12px; text-align:right; white-space:nowrap; }
 
-    .title{
-      font-weight:900;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      font-size:26px;
-      line-height:1;
-    }
-    .sub{ color:var(--muted); font-size:12px; margin-top:6px; }
-    .updated{ color:rgba(255,255,255,.65); font-size:12px; text-align:right; }
-
-    .panel{
+    .controls{
       margin-top:14px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
     }
-
-    .searchRow{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
     .search{
-      flex:1 1 260px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
+      flex: 1 1 260px;
+      display:flex; align-items:center; gap:10px;
+      background: var(--card);
+      border:1px solid var(--line);
       border-radius:14px;
-      padding:10px 12px;
+      padding: 10px 12px;
     }
-
-    .search svg{ flex:0 0 auto; opacity:.9; }
     .search input{
       width:100%;
       border:0;
-      outline:none;
+      outline:0;
       background:transparent;
       color:#fff;
       font-size:14px;
     }
-    .search input::placeholder{ color:rgba(255,255,255,.60); }
-
-    .chip{
-      background:var(--chip);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:999px;
-      padding:6px 10px;
-      font-size:12px;
-      color:rgba(255,255,255,.80);
-      white-space:nowrap;
-    }
-
-    .actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      margin-left:auto;
-    }
-
     .btn{
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,.16);
-      background:rgba(255,255,255,.08);
+      flex: 0 0 auto;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
       color:#fff;
-      padding:9px 12px;
       border-radius:12px;
-      font-weight:800;
-      font-size:12px;
-      letter-spacing:.02em;
-      text-transform:uppercase;
+      padding: 10px 12px;
+      font-weight:700;
+      cursor:pointer;
     }
-    .btn:hover{ background:rgba(255,255,255,.12); }
+    .btn:hover{ background: rgba(255,255,255,.10); }
 
-    .list{
-      margin-top:12px;
+    .board{
+      margin-top:14px;
+      background: var(--card);
       border:1px solid var(--line);
       border-radius:16px;
       overflow:hidden;
-      background:rgba(255,255,255,.04);
     }
-
-    /* Header riga tabella */
-    .thead{
-      display:grid;
-      grid-template-columns: 70px 1fr 90px;
-      gap:12px;
-      padding:12px 12px;
-      background:rgba(0,0,0,.12);
-      border-bottom:1px solid var(--line);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:rgba(255,255,255,.70);
-      font-weight:900;
-    }
-
-    /* Riga giocatore */
     .row{
       display:grid;
-      grid-template-columns: 70px 1fr 90px;
+      grid-template-columns: 70px 1fr 110px;
       gap:12px;
       align-items:center;
-      padding:14px 12px;
+      padding: 14px 14px;
       border-top:1px solid var(--line);
     }
-    .row:first-of-type{ border-top:0; }
-
+    .row:first-child{ border-top:0; }
     .pos{
-      font-weight:900;
-      text-align:center;
-      width:52px;
-      height:42px;
+      width:46px;height:38px;
+      display:flex;align-items:center;justify-content:center;
       border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      margin-left:2px;
-    }
-
-    .nick{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.08);
       font-weight:900;
-      font-size:15px;
+    }
+    .nick{
+      font-weight:800;
+      font-size:16px;
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
     }
-
-    .meta{
-      margin-top:4px;
-      color:rgba(255,255,255,.65);
-      font-size:12px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .badgeMini{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      font-weight:800;
-      font-size:11px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-
-    .points{
+    .tot{
       text-align:right;
       font-weight:900;
-      font-size:16px;
+      font-size:18px;
       letter-spacing:.02em;
       white-space:nowrap;
     }
-
-    .r1{ background: linear-gradient(90deg, var(--gold), transparent); }
-    .r2{ background: linear-gradient(90deg, var(--silver), transparent); }
-    .r3{ background: linear-gradient(90deg, var(--bronze), transparent); }
-
     .empty{
-      padding:16px 12px;
-      color:rgba(255,255,255,.75);
-      font-size:13px;
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
     }
-
     .err{
       margin-top:12px;
       padding:10px 12px;
@@ -220,68 +111,40 @@
       border-radius:12px;
       background:rgba(255,0,0,.12);
       white-space:pre-wrap;
-      display:none;
     }
 
-    /* Mobile: più compatto e leggibile in iframe */
     @media (max-width: 640px){
       .title{ font-size:22px; }
-      .thead, .row{
-        grid-template-columns: 56px 1fr 78px;
-      }
-      .pos{ width:46px; height:40px; }
-      .points{ font-size:15px; }
+      .row{ grid-template-columns: 64px 1fr 90px; padding: 12px 12px; }
+      .tot{ font-size:16px; }
     }
   </style>
 </head>
-
 <body>
   <div class="wrap">
     <div class="header">
       <div>
-        <div class="title">Giocatori TN2G</div>
-        <div class="sub">Cerca il tuo nickname e controlla punti e posizione</div>
+        <div class="title">GIOCATORI TN2G</div>
+        <div class="sub">Cerca il tuo nick · classifica completa (Nick + Punti)</div>
       </div>
       <div class="updated" id="updated">Caricamento…</div>
     </div>
 
-    <div class="panel">
-      <div class="searchRow">
-        <div class="search" title="Cerca per nickname (anche parziale)">
-          <!-- icona lente -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M10.5 19a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17Z" stroke="rgba(255,255,255,.85)" stroke-width="2"/>
-            <path d="M16.8 16.8 22 22" stroke="rgba(255,255,255,.85)" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <input id="q" type="text" placeholder="Scrivi il tuo nick… (es: ale)" autocomplete="off" />
-        </div>
-
-        <div class="actions">
-          <span class="chip" id="count">0 giocatori</span>
-          <button class="btn" id="clearBtn" type="button">Pulisci</button>
-          <button class="btn" id="refreshBtn" type="button">Aggiorna</button>
-        </div>
+    <div class="controls">
+      <div class="search">
+        <span style="opacity:.75">🔎</span>
+        <input id="q" type="text" placeholder="Cerca il tuo nick (es. CUAI0)..." autocomplete="off" />
       </div>
-
-      <div class="list" style="margin-top:14px;">
-        <div class="thead">
-          <div>Pos</div>
-          <div>Nickname</div>
-          <div style="text-align:right;">Punti</div>
-        </div>
-        <div id="list"></div>
-        <div class="empty" id="empty" style="display:none;">Nessun risultato. Controlla di aver scritto il nickname giusto.</div>
-      </div>
-
-      <div class="err" id="err"></div>
+      <button class="btn" id="clearBtn" type="button">Pulisci</button>
     </div>
+
+    <div class="board" id="board"></div>
+    <div class="err" id="err" style="display:none;"></div>
   </div>
 
 <script>
-  // ✅ Incolla qui il CSV “Pubblica sul web → CSV”
+  // ✅ METTI QUI IL CSV DELLA TAB "ListaPubblica" (colonne: NICK, TOTALE)
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=1589947644&single=true&output=csv";
-
-  let ALL = []; // {pos, nick, total, aper, out, nerd, call}
 
   function showErr(msg){
     const el = document.getElementById("err");
@@ -289,9 +152,7 @@
     el.textContent = msg;
   }
   function hideErr(){
-    const el = document.getElementById("err");
-    el.style.display = "none";
-    el.textContent = "";
+    document.getElementById("err").style.display = "none";
   }
 
   function parseCSV(text){
@@ -299,7 +160,7 @@
     let row = [], cur = "", inQ = false;
     for (let i=0;i<text.length;i++){
       const c = text[i], n = text[i+1];
-      if (c === '"') {
+      if (c === '"'){
         if (inQ && n === '"'){ cur += '"'; i++; }
         else inQ = !inQ;
       } else if (c === ',' && !inQ){
@@ -320,80 +181,58 @@
     const n = parseInt(String(x||"").replace(/[^\d-]/g,""), 10);
     return Number.isFinite(n) ? n : 0;
   }
-
-  function norm(s){
-    return String(s||"")
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, ""); // toglie accenti
-  }
-
+  function norm(s){ return String(s||"").trim().toLowerCase(); }
   function escapeHtml(s){
     return String(s||"").replace(/[&<>"']/g, m => ({
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
     }[m]));
   }
 
-  function badgeLabel(p){
-    // mini etichetta “TOP” per i primi 10
-    if (p.pos === 1) return "LEADER";
-    if (p.pos === 2) return "CHASER";
-    if (p.pos === 3) return "CONTENDER";
-    if (p.pos <= 10) return "TOP 10";
-    return "";
-  }
+  let ALL = [];
 
   function render(list){
-    const root = document.getElementById("list");
-    const empty = document.getElementById("empty");
-    root.innerHTML = "";
-
-    document.getElementById("count").textContent =
-      `${list.length} / ${ALL.length} giocatori`;
+    const board = document.getElementById("board");
+    board.innerHTML = "";
 
     if (!list.length){
-      empty.style.display = "block";
+      const d = document.createElement("div");
+      d.className = "empty";
+      d.textContent = "Nessun giocatore trovato.";
+      board.appendChild(d);
       return;
     }
-    empty.style.display = "none";
 
-    for (const p of list){
+    list.forEach((p, i) => {
       const row = document.createElement("div");
-      row.className = "row " + (p.pos===1?"r1":p.pos===2?"r2":p.pos===3?"r3":"");
-      const lab = badgeLabel(p);
-
+      row.className = "row";
       row.innerHTML = `
         <div class="pos">${p.pos}</div>
-        <div>
-          <div class="nick">${escapeHtml(p.nick)} ${lab ? `<span class="badgeMini">${lab}</span>` : ""}</div>
-          <div class="meta">
-            <span>Aperitivi: <b>${p.aper}</b></span>
-            <span>Outdoor: <b>${p.out}</b></span>
-            <span>Nerd: <b>${p.nerd}</b></span>
-            <span>Call: <b>${p.call}</b></span>
-          </div>
-        </div>
-        <div class="points">${p.total}</div>
+        <div class="nick">${escapeHtml(p.nick)}</div>
+        <div class="tot">${p.total}</div>
       `;
-      root.appendChild(row);
-    }
+      board.appendChild(row);
+    });
   }
 
   function applyFilter(){
     const q = norm(document.getElementById("q").value);
-    if (!q) return render(ALL);
-
+    if (!q){
+      render(ALL);
+      return;
+    }
     const filtered = ALL.filter(p => norm(p.nick).includes(q));
     render(filtered);
   }
 
-  async function load(){
+  async function main(){
     try{
-      hideErr();
+      if (!CSV_URL || CSV_URL.includes("INCOLLA_QUI")){
+        showErr("Devi incollare in CSV_URL il link CSV della tab ListaPubblica (File → Pubblica sul web → CSV).");
+        return;
+      }
 
       const res = await fetch(CSV_URL, {cache:"no-store"});
-      if (!res.ok) throw new Error("Impossibile scaricare il CSV. Controlla che il foglio sia pubblicato e che il link CSV sia corretto.");
+      if (!res.ok) throw new Error("Impossibile scaricare il CSV. Controlla che il foglio sia pubblicato e il link sia corretto.");
 
       const text = await res.text();
       const data = parseCSV(text);
@@ -402,65 +241,50 @@
       const headers = data[0].map(h => String(h||"").trim().toUpperCase());
       const idx = (name) => headers.indexOf(name);
 
-      const iNick = idx("NICK");
-      const iAper = idx("APERITIVI");
-      const iOut  = idx("OUTDOOR");
-      const iNerd = idx("NERD");
-      const iCall = idx("CALL");
+      const iNick  = idx("NICK");
+      const iTotal = idx("TOTALE");
 
-      if ([iNick,iAper,iOut,iNerd,iCall].some(i => i < 0)){
+      if (iNick < 0 || iTotal < 0){
         throw new Error(
           "Intestazioni mancanti nel CSV.\n" +
-          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL.\n" +
+          "La tab ListaPubblica deve avere: NICK, TOTALE.\n" +
           "Intestazioni lette: " + headers.join(", ")
         );
       }
 
       const players = data.slice(1)
         .filter(r => (r[iNick]||"").trim() !== "")
-        .map(r => {
-          const nick = String(r[iNick]).trim();
-          const aper = toInt(r[iAper]);
-          const out  = toInt(r[iOut]);
-          const nerd = toInt(r[iNerd]);
-          const call = toInt(r[iCall]);
-          const total = aper + out + nerd + call;
-          return {nick, aper, out, nerd, call, total};
-        })
-        .sort((a,b) => b.total - a.total)
-        .map((p, i) => ({...p, pos:i+1}));
+        .map(r => ({
+          nick: String(r[iNick]).trim(),
+          total: toInt(r[iTotal])
+        }))
+        .sort((a,b) => b.total - a.total);
 
-      ALL = players;
+      // pos = ranking assoluto (1,2,3...)
+      ALL = players.map((p, i) => ({...p, pos: i+1}));
+
+      hideErr();
+      applyFilter();
 
       const now = new Date();
       document.getElementById("updated").textContent =
-        "Aggiornato: " + now.toLocaleString("it-IT", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"});
-
-      applyFilter();
+        "Aggiornato: " + now.toLocaleString("it-IT", {
+          day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"
+        });
 
     }catch(e){
       showErr(e.message || String(e));
     }
   }
 
-  // UI
-  let t = null;
-  document.getElementById("q").addEventListener("input", () => {
-    clearTimeout(t);
-    t = setTimeout(applyFilter, 80);
-  });
-
+  document.getElementById("q").addEventListener("input", applyFilter);
   document.getElementById("clearBtn").addEventListener("click", () => {
     document.getElementById("q").value = "";
     applyFilter();
-    document.getElementById("q").focus();
   });
 
-  document.getElementById("refreshBtn").addEventListener("click", () => load());
-
-  // Start
-  load();
-  setInterval(load, 60000); // refresh ogni 60s (se aggiorni il foglio)
+  main();
+  setInterval(main, 60000);
 </script>
 </body>
 </html>
