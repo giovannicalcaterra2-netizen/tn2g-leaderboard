@@ -65,28 +65,19 @@
     .badges{
   display:flex;
   justify-content:flex-end;
-  gap:10px;
-  flex-wrap:nowrap;     /* <- IMPORTANT: non andare a capo */
+  gap:12px;
+  align-items:center;       /* centrati verticalmente */
+  flex-wrap:nowrap;
 }
  .badge{
-  width:80px;
-  height:80px;
-  border-radius:999px;
-
-  border:0;
-  box-shadow: 0 0 0 2px rgba(255,255,255,.08);
-  background:#0b1f33;
-
-  /* IMPORTANTI */
-  padding:0;              /* togli padding */
-  object-fit:cover;
-  object-position:center;
-
-  /* ZOOM dell’immagine dentro al cerchio */
-  transform: scale(1.25);
-  transform-origin:center;
-
-  /* evita che il transform “tagli” male */
+  width:72px;
+  height:auto;              /* mantiene proporzioni */
+  border-radius:0;          /* niente cerchio */
+  background:transparent;   /* niente sfondo */
+  padding:0;                /* niente bordo interno */
+  border:0;                 /* niente bordo */
+  box-shadow:none;          /* niente glow forzato */
+  object-fit:contain;       /* mostra tutta l’immagine */
   display:block;
 }
     .badgeWrap{
@@ -370,6 +361,7 @@ b.appendChild(wrap);
 </script>
 </body>
 </html>
+
 
 
 
