@@ -1,394 +1,337 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TN2G - Giocatori</title>
-  <style>
-    :root{
-      --bg:#0b1f33;
-      --line:rgba(255,255,255,.10);
-      --card:rgba(255,255,255,.06);
-      --muted:rgba(255,255,255,.70);
-      --muted2:rgba(255,255,255,.55);
-      --accent:rgba(255,255,255,.12);
-    }
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      background:linear-gradient(180deg,var(--bg),#071423);
-      color:#fff;
-    }
-    .wrap{ max-width: 980px; margin: 0 auto; padding: 18px 14px 28px;}
-    .header{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
-      padding: 8px 2px 14px;
-      border-bottom:1px solid var(--line);
-    }
-    .title{ font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:28px; line-height:1;}
-    .sub{ color:var(--muted); font-size:12px; margin-top:6px;}
-    .updated{ color:var(--muted2); font-size:12px; text-align:right; white-space:nowrap; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TN2G - Giocatori</title>
 
-    .controls{
-      margin-top:14px;
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    }
-    .search{
-      flex: 1 1 260px;
-      display:flex; align-items:center; gap:10px;
-      background: var(--card);
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding: 10px 12px;
-    }
-    .search input{
-      width:100%;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:#fff;
-      font-size:14px;
-    }
-    .btn{
-      flex: 0 0 auto;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      color:#fff;
-      border-radius:12px;
-      padding: 10px 12px;
-      font-weight:700;
-      cursor:pointer;
-    }
-    .btn:hover{ background: rgba(255,255,255,.10); }
+<style>
+:root{
+--bg:#0b1f33;
+--line:rgba(255,255,255,.10);
+--card:rgba(255,255,255,.06);
+--muted:rgba(255,255,255,.70);
+--muted2:rgba(255,255,255,.55);
+}
 
-    .board{
-      margin-top:14px;
-      background: var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      overflow:hidden;
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 70px 1fr 110px;
-      gap:12px;
-      align-items:center;
-      padding: 14px 14px;
-      border-top:1px solid var(--line);
-    }
-    .row:first-child{ border-top:0; }
-    .pos{
-      width:46px;height:38px;
-      display:flex;align-items:center;justify-content:center;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.08);
-      font-weight:900;
-    }
-    .nick{
-      font-weight:800;
-      font-size:16px;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .tot{
-      text-align:right;
-      font-weight:900;
-      font-size:18px;
-      letter-spacing:.02em;
-      white-space:nowrap;
-    }
-    .empty{
-      padding: 14px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .err{
-      margin-top:12px;
-      padding:10px 12px;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:12px;
-      background:rgba(255,0,0,.12);
-      white-space:pre-wrap;
-    }
+body{
+margin:0;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+background:linear-gradient(180deg,var(--bg),#071423);
+color:#fff;
+}
 
-    @media (max-width: 640px){
-      .title{ font-size:22px; }
-      .row{ grid-template-columns: 64px 1fr 90px; padding: 12px 12px; }
-      .tot{ font-size:16px; }
-    }
-  </style>
+.wrap{max-width:980px;margin:0 auto;padding:18px 14px 28px;}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+padding-bottom:14px;
+border-bottom:1px solid var(--line);
+}
+
+.title{font-weight:800;font-size:28px;}
+.sub{color:var(--muted);font-size:12px;margin-top:6px;}
+.updated{color:var(--muted2);font-size:12px;}
+
+.controls{
+margin-top:14px;
+display:flex;
+gap:10px;
+}
+
+.search{
+flex:1;
+display:flex;
+align-items:center;
+gap:10px;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:14px;
+padding:10px 12px;
+}
+
+.search input{
+width:100%;
+border:0;
+outline:0;
+background:transparent;
+color:#fff;
+}
+
+.btn{
+border:1px solid rgba(255,255,255,.18);
+background:rgba(255,255,255,.06);
+color:#fff;
+border-radius:12px;
+padding:10px 12px;
+cursor:pointer;
+}
+
+.board{
+margin-top:14px;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:16px;
+overflow:hidden;
+}
+
+.row{
+display:grid;
+grid-template-columns:70px 1fr 110px;
+gap:12px;
+align-items:center;
+padding:14px;
+border-top:1px solid var(--line);
+}
+
+.pos{
+width:46px;
+height:38px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:12px;
+border:1px solid var(--line);
+background:rgba(255,255,255,.08);
+font-weight:900;
+}
+
+.nick{font-weight:800;}
+.tot{text-align:right;font-weight:900;}
+
+.empty{padding:14px;color:var(--muted);}
+.err{
+margin-top:12px;
+padding:10px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:12px;
+background:rgba(255,0,0,.12);
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+padding:18px;
+z-index:9999;
+}
+
+.modal-box{
+max-width:560px;
+margin:80px auto;
+background:#0b1f33;
+border:1px solid rgba(255,255,255,.15);
+border-radius:14px;
+padding:16px;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div>
-        <div class="title">GIOCATORI TN2G</div>
-        <div class="sub">Cerca il tuo nick · classifica completa (Nick + Punti)</div>
-      </div>
-      <div class="updated" id="updated">Caricamento…</div>
-    </div>
 
-    <div class="controls">
-      <div class="search">
-        <span style="opacity:.75">🔎</span>
-        <input id="q" type="text" placeholder="Cerca il tuo nick (es. CUAI0)..." autocomplete="off" />
-      </div>
-      <button class="btn" id="clearBtn" type="button">Pulisci</button>
-    </div>
+<div class="wrap">
 
-    <div class="board" id="board"></div>
-    <div class="err" id="err" style="display:none;"></div>
-  </div>
+<div class="header">
+<div>
+<div class="title">GIOCATORI TN2G</div>
+<div class="sub">Cerca il tuo nick · classifica completa</div>
+</div>
+<div id="updated">Caricamento…</div>
+</div>
+
+<div class="controls">
+<div class="search">
+🔎
+<input id="q" placeholder="Cerca il tuo nick">
+</div>
+<button class="btn" id="clearBtn">Pulisci</button>
+</div>
+
+<div class="board" id="board"></div>
+<div class="err" id="err" style="display:none"></div>
+
+</div>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-box">
+
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div>
+<div id="mNick" style="font-weight:900;font-size:18px"></div>
+<div id="mTot" style="opacity:.7;font-size:12px"></div>
+</div>
+<button class="btn" id="mClose">Chiudi</button>
+</div>
+
+<div id="mBody" style="margin-top:12px;display:grid;gap:8px"></div>
+
+</div>
+</div>
+
 
 <script>
-  // memoria dati badge
-  let DB = new Map();
-  // ✅ METTI QUI IL CSV DELLA TAB "ListaPubblica" (colonne: NICK, TOTALE)
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=1589947644&single=true&output=csv";
-  const CSV_DB_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=0&single=true&output=csv"; // NICK, APERITIVI, OUTDOOR, NERD, CALL
-  const THRESHOLDS = [
-  {min: 20, name: "Diamante"},
-  {min: 10, name: "Oro"},
-  {min: 5,  name: "Argento"},
-  {min: 3,  name: "Bronzo"},
-  {min: 1,  name: "Cartone"},
+
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=1589947644&single=true&output=csv";
+const CSV_DB_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRdw2aqYrpebQDoKySNidi-hHRZJowezLt9u4XGIZVbUQzZQrIhOpy9G7qVtOOzyplfrJSjO5wRfp2_/pub?gid=0&single=true&output=csv";
+
+let DB=new Map();
+let ALL=[];
+
+const THRESHOLDS=[
+{min:20,name:"Diamante"},
+{min:10,name:"Oro"},
+{min:5,name:"Argento"},
+{min:3,name:"Bronzo"},
+{min:1,name:"Cartone"}
 ];
 
-function badgeName(value){
-  for (const t of THRESHOLDS) if (value >= t.min) return t.name;
-  return null;
-}
-  function showErr(msg){
-    const el = document.getElementById("err");
-    el.style.display = "block";
-    el.textContent = msg;
-  }
-  function hideErr(){
-    document.getElementById("err").style.display = "none";
-  }
-
-  function parseCSV(text){
-    const rows = [];
-    let row = [], cur = "", inQ = false;
-    for (let i=0;i<text.length;i++){
-      const c = text[i], n = text[i+1];
-      if (c === '"'){
-        if (inQ && n === '"'){ cur += '"'; i++; }
-        else inQ = !inQ;
-      } else if (c === ',' && !inQ){
-        row.push(cur); cur="";
-      } else if ((c === '\n' || c === '\r') && !inQ){
-        if (cur.length || row.length){ row.push(cur); rows.push(row); }
-        row=[]; cur="";
-        if (c === '\r' && n === '\n') i++;
-      } else {
-        cur += c;
-      }
-    }
-    if (cur.length || row.length){ row.push(cur); rows.push(row); }
-    return rows;
-  }
-
-  function toInt(x){
-    const n = parseInt(String(x||"").replace(/[^\d-]/g,""), 10);
-    return Number.isFinite(n) ? n : 0;
-  }
-  function norm(s){ return String(s||"").trim().toLowerCase(); }
-  function escapeHtml(s){
-    return String(s||"").replace(/[&<>"']/g, m => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[m]));
-  }
-
-  let ALL = [];
-
-  function render(list){
-    const board = document.getElementById("board");
-    board.innerHTML = "";
-
-    if (!list.length){
-      const d = document.createElement("div");
-      d.className = "empty";
-      d.textContent = "Nessun giocatore trovato.";
-      board.appendChild(d);
-      return;
-    }
-
-    list.forEach((p, i) => {
-      const row = document.createElement("div");
-      row.className = "row";
-      row.innerHTML = `
-        <div class="pos">${p.pos}</div>
-        <div class="nick">${escapeHtml(p.nick)}</div>
-        <div class="tot">${p.total}</div>
-      `;
-      row.style.cursor = "pointer";
-      row.addEventListener("click", () => openModal(p.nick, p.total));
-      board.appendChild(row);
-    });
-  }
-
-  function applyFilter(){
-    const q = norm(document.getElementById("q").value);
-    if (!q){
-      render(ALL);
-      return;
-    }
-    const filtered = ALL.filter(p => norm(p.nick).includes(q));
-    render(filtered);
-  }
-
-  async function main(){
-    function openModal(nick, total){
-  const modal = document.getElementById("modal");
-  const mNick = document.getElementById("mNick");
-  const mTot  = document.getElementById("mTot");
-  const mBody = document.getElementById("mBody");
-
-  mNick.textContent = nick;
-  mTot.textContent = `${total} punti totali`;
-
-  const rec = DB.get(String(nick).toLowerCase());
-  mBody.innerHTML = "";
-
-  if (!rec){
-    mBody.innerHTML = `<div style="opacity:.8;">Nessun dettaglio badge trovato per questo nick.</div>`;
-  } else {
-    const items = [
-      ["Aperitivi", badgeName(rec.aper)],
-      ["Outdoor", badgeName(rec.out)],
-      ["Nerd", badgeName(rec.nerd)],
-      ["Call", badgeName(rec.call)],
-    ].filter(([_, b]) => b); // mostra solo se ottenuto
-
-    if (!items.length){
-      mBody.innerHTML = `<div style="opacity:.8;">Nessun badge ottenuto ancora.</div>`;
-    } else {
-      items.forEach(([cat, b]) => {
-        const d = document.createElement("div");
-        d.style.padding = "10px 12px";
-        d.style.border = "1px solid rgba(255,255,255,.12)";
-        d.style.borderRadius = "12px";
-        d.style.background = "rgba(255,255,255,.06)";
-        d.innerHTML = `<b>${cat}</b> — ${b}`;
-        mBody.appendChild(d);
-      });
-    }
-  }
-
-  modal.style.display = "block";
+function badgeName(v){
+for(const t of THRESHOLDS) if(v>=t.min) return t.name;
+return null;
 }
 
-document.getElementById("mClose").addEventListener("click", () => {
-  document.getElementById("modal").style.display = "none";
+function parseCSV(text){
+return text.trim().split("\n").map(r=>r.split(","));
+}
+
+function toInt(x){return parseInt(x)||0;}
+
+function render(list){
+
+const board=document.getElementById("board");
+board.innerHTML="";
+
+if(!list.length){
+board.innerHTML='<div class="empty">Nessun giocatore</div>';
+return;
+}
+
+list.forEach(p=>{
+
+const row=document.createElement("div");
+row.className="row";
+
+row.innerHTML=`
+<div class="pos">${p.pos}</div>
+<div class="nick">${p.nick}</div>
+<div class="tot">${p.total}</div>
+`;
+
+row.style.cursor="pointer";
+row.onclick=()=>openModal(p.nick,p.total);
+
+board.appendChild(row);
+
 });
-document.getElementById("modal").addEventListener("click", (e) => {
-  if (e.target.id === "modal") e.target.style.display = "none";
+
+}
+
+function openModal(nick,total){
+
+const modal=document.getElementById("modal");
+const mNick=document.getElementById("mNick");
+const mTot=document.getElementById("mTot");
+const mBody=document.getElementById("mBody");
+
+mNick.textContent=nick;
+mTot.textContent=total+" punti totali";
+
+const rec=DB.get(nick.toLowerCase());
+mBody.innerHTML="";
+
+if(rec){
+
+[
+["Aperitivi",badgeName(rec.aper)],
+["Outdoor",badgeName(rec.out)],
+["Nerd",badgeName(rec.nerd)],
+["Call",badgeName(rec.call)]
+].forEach(([cat,b])=>{
+if(!b) return;
+
+const d=document.createElement("div");
+d.textContent=cat+" — "+b;
+mBody.appendChild(d);
 });
-    try{
-      if (!CSV_URL || CSV_URL.includes("INCOLLA_QUI")){
-        showErr("Devi incollare in CSV_URL il link CSV della tab ListaPubblica (File → Pubblica sul web → CSV).");
-        return;
-      }
 
-      const res = await fetch(CSV_URL, {cache:"no-store"});
-      if (!res.ok) throw new Error("Impossibile scaricare il CSV. Controlla che il foglio sia pubblicato e il link sia corretto.");
+}
 
-      const text = await res.text();
-      const data = parseCSV(text);
-      if (data.length < 2) throw new Error("CSV vuoto o non valido.");
+modal.style.display="block";
 
-      const headers = data[0].map(h => String(h||"").trim().toUpperCase());
-      const idx = (name) => headers.indexOf(name);
+}
 
-      const iNick  = idx("NICK");
-      const iTotal = idx("TOTALE");
+async function main(){
 
-      if (iNick < 0 || iTotal < 0){
-        throw new Error(
-          "Intestazioni mancanti nel CSV.\n" +
-          "La tab ListaPubblica deve avere: NICK, TOTALE.\n" +
-          "Intestazioni lette: " + headers.join(", ")
-        );
-      }
+try{
 
-      const players = data.slice(1)
-        .filter(r => (r[iNick]||"").trim() !== "")
-        .map(r => ({
-          nick: String(r[iNick]).trim(),
-          total: toInt(r[iTotal])
-        }))
-        .sort((a,b) => b.total - a.total);
+const res=await fetch(CSV_URL);
+const text=await res.text();
+const data=parseCSV(text);
 
-      // pos = ranking assoluto (1,2,3...)
-      ALL = players.map((p, i) => ({...p, pos: i+1}));
-      // carica TN2G_DB per popup badge
-      const res2 = await fetch(CSV_DB_URL, {cache:"no-store"});
-      if (!res2.ok) throw new Error("Impossibile scaricare TN2G_DB CSV.");
+const players=data.slice(1).map(r=>({
+nick:r[0],
+total:toInt(r[1])
+}))
+.sort((a,b)=>b.total-a.total);
 
-      const text2 = await res2.text();
-      const data2 = parseCSV(text2);
+ALL=players.map((p,i)=>({...p,pos:i+1}));
 
-      const h2 = data2[0].map(h => String(h||"").trim().toUpperCase());
-      const id2 = (name) => h2.indexOf(name);
+const res2=await fetch(CSV_DB_URL);
+const text2=await res2.text();
+const data2=parseCSV(text2);
 
-      const nNick = id2("NICK");
-      const nA = id2("APERITIVI");
-      const nO = id2("OUTDOOR");
-      const nN = id2("NERD");
-      const nC = id2("CALL");
+DB=new Map();
 
-      DB = new Map();
+data2.slice(1).forEach(r=>{
+DB.set(r[0].toLowerCase(),{
+aper:toInt(r[1]),
+out:toInt(r[2]),
+nerd:toInt(r[3]),
+call:toInt(r[4])
+});
+});
 
-      data2.slice(1).forEach(r => {
+render(ALL);
 
-        const nick = String(r[nNick]||"").trim();
-        if (!nick) return;
+document.getElementById("updated").textContent=
+"Aggiornato: "+new Date().toLocaleString();
 
-        DB.set(nick.toLowerCase(), {
-        aper: toInt(r[nA]),
-        out: toInt(r[nO]),
-        nerd: toInt(r[nN]),
-        call: toInt(r[nC])
-      });
+}catch(e){
 
-    });
-      hideErr();
-      applyFilter();
+document.getElementById("err").style.display="block";
+document.getElementById("err").textContent=e;
 
-      const now = new Date();
-      document.getElementById("updated").textContent =
-        "Aggiornato: " + now.toLocaleString("it-IT", {
-          day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"
-        });
+}
 
-    }catch(e){
-      showErr(e.message || String(e));
-    }
-  }
+}
 
-  document.getElementById("q").addEventListener("input", applyFilter);
-  document.getElementById("clearBtn").addEventListener("click", () => {
-    document.getElementById("q").value = "";
-    applyFilter();
-  });
+document.getElementById("q").addEventListener("input",e=>{
+const q=e.target.value.toLowerCase();
+render(ALL.filter(p=>p.nick.toLowerCase().includes(q)));
+});
 
-  main();
-  setInterval(main, 60000);
-  <div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); padding:18px; z-index:9999;">
-  <div style="max-width:560px; margin:80px auto; background:#0b1f33; border:1px solid rgba(255,255,255,.15); border-radius:14px; padding:16px;">
-    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-      <div>
-        <div id="mNick" style="font-weight:900; font-size:18px;"></div>
-        <div id="mTot" style="opacity:.75; font-size:12px; margin-top:2px;"></div>
-      </div>
-      <button id="mClose" style="border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.08); color:#fff; padding:8px 10px; border-radius:10px; cursor:pointer;">Chiudi</button>
-    </div>
-    <div id="mBody" style="margin-top:12px; display:grid; gap:8px; font-size:14px;"></div>
-  </div>
-</div>
+document.getElementById("clearBtn").onclick=()=>{
+document.getElementById("q").value="";
+render(ALL);
+};
+
+document.getElementById("mClose").onclick=()=>{
+document.getElementById("modal").style.display="none";
+};
+
+document.getElementById("modal").onclick=e=>{
+if(e.target.id==="modal") e.target.style.display="none";
+};
+
+main();
+setInterval(main,60000);
+
 </script>
+
 </body>
 </html>
