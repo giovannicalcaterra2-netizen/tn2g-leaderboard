@@ -250,7 +250,7 @@ if(rec){
 ["Aperitivi",badgeName(rec.aper)],
 ["Outdoor",badgeName(rec.out)],
 ["Nerd",badgeName(rec.nerd)],
-["Call",badgeName(rec.call)]
+["Call",badgeName(rec.call)],
 ["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
 ["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null]
 ].forEach(([cat,b])=>{
@@ -298,7 +298,7 @@ DB.set(r[0].toLowerCase(),{
 aper:toInt(r[1]),
 out:toInt(r[2]),
 nerd:toInt(r[3]),
-call:toInt(r[4])
+call:toInt(r[4]),
 dalgiornozero:toInt(r[5]),
 stakanovista:toInt(r[6])
 });
