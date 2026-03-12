@@ -137,7 +137,7 @@ padding:16px;
 <div class="header">
 <div>
 <div class="title">GIOCATORI TN2G</div>
-<div class="sub">Cerca il tuo nick · classifica completa</div>
+<div class="sub">Cerca il tuo nick · clicca un giocatore per vedere achievement e badge</div>
 </div>
 <div id="updated">Caricamento…</div>
 </div>
@@ -251,10 +251,16 @@ if(rec){
 ["Outdoor",badgeName(rec.out)],
 ["Nerd",badgeName(rec.nerd)],
 ["Call",badgeName(rec.call)]
+["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
+["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null]
 ].forEach(([cat,b])=>{
 if(!b) return;
 
 const d=document.createElement("div");
+d.style.padding="10px 12px";
+d.style.border="1px solid rgba(255,255,255,.12)";
+d.style.borderRadius="12px";
+d.style.background="rgba(255,255,255,.06)";
 d.textContent=cat+" — "+b;
 mBody.appendChild(d);
 });
@@ -293,6 +299,8 @@ aper:toInt(r[1]),
 out:toInt(r[2]),
 nerd:toInt(r[3]),
 call:toInt(r[4])
+dalgiornozero:toInt(r[5]),
+stakanovista:toInt(r[6])
 });
 });
 
