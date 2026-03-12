@@ -231,6 +231,12 @@
       {min:3,  img:"badge/call_bronzo.png"},
       {min:1,  img:"badge/call_cartone.png"},
     ],
+    dal_giorno_zero: [
+      {min:1, img:"badge/dal_giorno_zero.png"},
+    ],
+  stakanovista: [
+      {min:1, img:"badge/stakanovista.png"},
+    ],
   };
 
   function showErr(msg){
@@ -327,11 +333,13 @@
       const iOut  = idx("OUTDOOR");
       const iNerd = idx("NERD");
       const iCall = idx("CALL");
+      const iDalGiornoZero = idx("DAL_GIORNO_ZERO");
+      const iStakanovista = idx("STAKANOVISTA");
 
-      if ([iNick,iAper,iOut,iNerd,iCall].some(i => i < 0)){
+      if ([iNick,iAper,iOut,iNerd,iCall,iDalGiornoZero,iStakanovista].some(i => i < 0)){
         throw new Error(
           "Intestazioni mancanti nel CSV.\n" +
-          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL.\n" +
+          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALLDAL_GIORNO_ZERO, STAKANOVISTA.\n" +
           "Intestazioni lette: " + headers.join(", ")
         );
       }
@@ -344,13 +352,18 @@
           const out  = toInt(r[iOut]);
           const nerd = toInt(r[iNerd]);
           const call = toInt(r[iCall]);
-          const total = aper + out + nerd + call;
+          const dalGiornoZero = toInt(r[iDalGiornoZero]);
+          const stakanovista = toInt(r[iStakanovista]);
+
+          const total = aper + out + nerd + call + dalGiornoZero + stakanovista;
 
           const badges = [];
           const b1 = pickBadge("aperitivi", aper); if (b1) badges.push(b1);
           const b2 = pickBadge("outdoor", out);     if (b2) badges.push(b2);
           const b3 = pickBadge("nerd", nerd);       if (b3) badges.push(b3);
           const b4 = pickBadge("call", call);       if (b4) badges.push(b4);
+          const b5 = pickBadge("dal_giorno_zero", dalGiornoZero); if (b5) badges.push(b5);
+          const b6 = pickBadge("stakanovista", stakanovista); if (b6) badges.push(b6);
 
           return {nick, total, badges};
         })
@@ -380,6 +393,7 @@
 </script>
 </body>
 </html>
+
 
 
 
