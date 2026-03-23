@@ -355,7 +355,7 @@
       if ([iNick,iAper,iOut,iNerd,iCall,iSport,iCinema,iDalGiornoZero,iStakanovista].some(i => i < 0)){
         throw new Error(
           "Intestazioni mancanti nel CSV.\n" +
-          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALLDAL_GIORNO_ZERO, STAKANOVISTA.\n" +
+          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL, SPORT, CINEMA, DAL_GIORNO_ZERO, STAKANOVISTA.\n" +
           "Intestazioni lette: " + headers.join(", ")
         );
       }
@@ -382,8 +382,8 @@
           const b4 = pickBadge("call", call);       if (b4) badges.push(b4);
           const b5 = pickBadge("sport", sport); if (b5) badges.push(b5);
           const b6 = pickBadge("cinema", cinema); if (b6) badges.push(b6);
-          const b7 = pickBadge("dal_giorno_zero", dalGiornoZero); if (b5) badges.push(b5);
-          const b8 = pickBadge("stakanovista", stakanovista); if (b6) badges.push(b6);
+          const b7 = pickBadge("dal_giorno_zero", dalGiornoZero); if (b7) badges.push(b7);
+          const b8 = pickBadge("stakanovista", stakanovista); if (b8) badges.push(b8);
           return {nick, total, badges};
         })
         .sort((a,b) => b.total - a.total)
