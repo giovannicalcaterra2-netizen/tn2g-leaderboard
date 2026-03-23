@@ -254,6 +254,8 @@ if(rec){
 ["Outdoor",badgeName(rec.out)],
 ["Nerd",badgeName(rec.nerd)],
 ["Call",badgeName(rec.call)],
+["Sport", badgeName(rec.sport)],
+["Cinema", badgeName(rec.cinema)],  
 ["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
 ["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null]
 ].forEach(([cat,b])=>{
@@ -302,8 +304,10 @@ aper:toInt(r[1]),
 out:toInt(r[2]),
 nerd:toInt(r[3]),
 call:toInt(r[4]),
-dalgiornozero:toInt(r[5]),
-stakanovista:toInt(r[6])
+sport:toInt(r[5]),
+cinema:toInt(r[6]),
+dalgiornozero:toInt(r[7]),
+stakanovista:toInt(r[8])
 });
 });
 
