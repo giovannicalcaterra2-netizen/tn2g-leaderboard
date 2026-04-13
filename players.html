@@ -257,7 +257,7 @@ if(rec){
 ["Sport", badgeName(rec.sport)],
 ["Cinema", badgeName(rec.cinema)],  
 ["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
-["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null]
+["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null],
 ["Penalty", rec.assenze < 0 ? "Disertore" : null]
 ].forEach(([cat,b])=>{
 if(!b) return;
@@ -308,7 +308,7 @@ call:toInt(r[4]),
 sport:toInt(r[5]),
 cinema:toInt(r[6]),
 dalgiornozero:toInt(r[7]),
-stakanovista:toInt(r[8])
+stakanovista:toInt(r[8]),
 assenze:toInt(r[9])
 });
 });
