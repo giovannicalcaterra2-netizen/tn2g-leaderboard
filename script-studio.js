@@ -18,11 +18,16 @@ async function loadStudioLeaderboard() {
     const usernameIndex = headers.indexOf("Username");
     const puntiIndex = headers.indexOf("Punti studio");
 
-    const players = data.map(row => ({
-      username: row[usernameIndex],
-      punti: Number(row[puntiIndex]) || 0
-    }));
-
+    const players = data
+  .map(row => ({
+    username: row[usernameIndex],
+    punti: Number(row[puntiIndex]) || 0
+  }))
+  .filter(player =>
+    player.username &&
+    player.username.trim() !== "" &&
+    player.punti > 0
+  );
     players.sort((a, b) => b.punti - a.punti);
 
     container.innerHTML = "";
