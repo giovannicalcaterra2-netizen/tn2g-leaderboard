@@ -9,6 +9,97 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #081c34, #12355b);
+    color: #ffffff;
+  }
+
+  .studio-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #ffffff;
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+  }
+
+  .leaderboard-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+  }
+
+  .leaderboard-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .studio-card {
+    display: grid;
+    grid-template-columns: 70px 1fr 90px;
+    align-items: center;
+    gap: 16px;
+
+    padding: 16px 18px;
+    margin-bottom: 12px;
+
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+  }
+
+  .studio-rank {
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .studio-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .studio-info p {
+    margin: 4px 0 0;
+    opacity: 0.75;
+    font-size: 0.95rem;
+  }
+
+  .studio-score {
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .studio-card {
+      grid-template-columns: 50px 1fr;
+    }
+
+    .studio-score {
+      grid-column: 2;
+      text-align: left;
+    }
+  }
+</style>
+  
 <body>
 
   <main class="studio-page">
