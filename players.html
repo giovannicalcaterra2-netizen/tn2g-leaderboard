@@ -255,7 +255,8 @@ if(rec){
 ["Nerd",badgeName(rec.nerd)],
 ["Call",badgeName(rec.call)],
 ["Sport", badgeName(rec.sport)],
-["Cinema", badgeName(rec.cinema)],  
+["Cinema", badgeName(rec.cinema)],
+["Musica", badgeName(rec.musica)],
 ["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
 ["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null],
 ["Penalty", rec.assenze < 0 ? "Disertore" : null]
@@ -307,9 +308,10 @@ nerd:toInt(r[3]),
 call:toInt(r[4]),
 sport:toInt(r[5]),
 cinema:toInt(r[6]),
-dalgiornozero:toInt(r[7]),
-stakanovista:toInt(r[8]),
-assenze:toInt(r[9])
+musica:toInt(r[7]),
+dalgiornozero:toInt(r[8]),
+stakanovista:toInt(r[9]),
+assenze:toInt(r[10])
 });
 });
 
