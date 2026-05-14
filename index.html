@@ -245,6 +245,15 @@
       {min:3,  img:"badge/cinema_bronzo.png"},
       {min:1,  img:"badge/cinema_cartone.png"},
     ],
+
+    musica: [
+      {min:20, img:"badge/musica_diamante.png"},
+      {min:10, img:"badge/musica_oro.png"},
+      {min:5,  img:"badge/musica_argento.png"},
+      {min:3,  img:"badge/musica_bronzo.png"},
+      {min:1,  img:"badge/musica_cartone.png"},
+    ],
+    
     dal_giorno_zero: [
       {min:1, img:"badge/dal_giorno_zero.png"},
     ],
@@ -352,14 +361,15 @@
       const iCall = idx("CALL");
       const iSport = idx("SPORT");
       const iCinema = idx("CINEMA");
+      const iMusica = idx("MUSICA");
       const iDalGiornoZero = idx("DAL_GIORNO_ZERO");
       const iStakanovista = idx("STAKANOVISTA");
       const iAssenze = idx("ASSENZE");
 
-      if ([iNick,iAper,iOut,iNerd,iCall,iSport,iCinema,iDalGiornoZero,iStakanovista,iAssenze].some(i => i < 0)){
+      if ([iNick,iAper,iOut,iNerd,iCall,iSport,iCinema,iMusica,iDalGiornoZero,iStakanovista,iAssenze].some(i => i < 0)){
         throw new Error(
           "Intestazioni mancanti nel CSV.\n" +
-          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL, SPORT, CINEMA, DAL_GIORNO_ZERO, STAKANOVISTA.\n" +
+          "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL, SPORT, CINEMA, MUSICA, DAL_GIORNO_ZERO, STAKANOVISTA.\n" +
           "Intestazioni lette: " + headers.join(", ")
         );
       }
@@ -374,11 +384,12 @@
           const call = toInt(r[iCall]);
           const sport = toInt(r[iSport]);
           const cinema = toInt(r[iCinema]);
+          const musica = toInt(r[iMusica]);
           const dalGiornoZero = toInt(r[iDalGiornoZero]);
           const stakanovista = toInt(r[iStakanovista]);
           const assenze = toInt(r[iAssenze]);
 
-          const total = aper + out + nerd + call + sport + cinema + dalGiornoZero + stakanovista + assenze;
+          const total = aper + out + nerd + call + sport + cinema + musica + dalGiornoZero + stakanovista + assenze;
 
           const badges = [];
           const b1 = pickBadge("aperitivi", aper); if (b1) badges.push(b1);
@@ -387,10 +398,11 @@
           const b4 = pickBadge("call", call);       if (b4) badges.push(b4);
           const b5 = pickBadge("sport", sport); if (b5) badges.push(b5);
           const b6 = pickBadge("cinema", cinema); if (b6) badges.push(b6);
-          const b7 = pickBadge("dal_giorno_zero", dalGiornoZero); if (b7) badges.push(b7);
-          const b8 = pickBadge("stakanovista", stakanovista); if (b8) badges.push(b8);
-          const b9 = pickBadge("disertore", Math.abs(assenze));
-          if (assenze < 0 && b9) badges.push(b9);
+          const b7 = pickBadge("musica", musica); if (b7) badges.push(b7);
+          const b8 = pickBadge("dal_giorno_zero", dalGiornoZero); if (b8) badges.push(b8);
+          const b9 = pickBadge("stakanovista", stakanovista); if (b9) badges.push(b9);
+          const b10 = pickBadge("disertore", Math.abs(assenze));
+          if (assenze < 0 && b10) badges.push(b10);
           return {nick, total, badges};
         })
         .sort((a,b) => b.total - a.total)
