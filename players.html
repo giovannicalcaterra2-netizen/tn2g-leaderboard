@@ -257,6 +257,7 @@ if(rec){
 ["Sport", badgeName(rec.sport)],
 ["Cinema", badgeName(rec.cinema)],
 ["Musica", badgeName(rec.musica)],
+["Salotto", badgeName(rec.salotto)],
 ["Speciale", rec.dalgiornozero >= 10 ? "Dal giorno zero" : null],
 ["Speciale", rec.stakanovista >= 10 ? "Stakanovista" : null],
 ["Penalty", rec.assenze < 0 ? "Disertore" : null]
@@ -309,10 +310,10 @@ call:toInt(r[4]),
 sport:toInt(r[5]),
 cinema:toInt(r[6]),
 musica:toInt(r[7]),
-dalgiornozero:toInt(r[8]),
-stakanovista:toInt(r[9]),
-assenze:toInt(r[10])
-});
+salotto:toInt(r[8]),
+dalgiornozero:toInt(r[9]),
+stakanovista:toInt(r[10]),
+assenze:toInt(r[11])
 });
 
 render(ALL);
