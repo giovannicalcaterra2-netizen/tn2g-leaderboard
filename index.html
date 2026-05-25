@@ -375,7 +375,7 @@
       const iStakanovista = idx("STAKANOVISTA");
       const iAssenze = idx("ASSENZE");
 
-      if ([iNick,iAper,iOut,iNerd,iCall,iSport,iCinema,iMusica,ISalotto,iDalGiornoZero,iStakanovista,iAssenze].some(i => i < 0)){
+      if ([iNick,iAper,iOut,iNerd,iCall,iSport,iCinema,iMusica,iSalotto,iDalGiornoZero,iStakanovista,iAssenze].some(i => i < 0)){
         throw new Error(
           "Intestazioni mancanti nel CSV.\n" +
           "Nel tab TN2G_DB la riga 1 deve contenere: NICK, APERITIVI, OUTDOOR, NERD, CALL, SPORT, CINEMA, MUSICA, SALOTTO, DAL_GIORNO_ZERO, STAKANOVISTA.\n" +
